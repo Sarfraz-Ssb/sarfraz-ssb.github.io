@@ -1,55 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>ToolZone - 2FA & UID Checker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UID Checker</title>
   <style>
-    body { font-family: Arial; background-color: #111; color: #eee; padding: 20px; }
-    input, textarea, button { width: 100%; margin-top: 10px; padding: 10px; border-radius: 5px; border: none; }
-    button { background-color: #0d6efd; color: white; cursor: pointer; }
-    .box { background: #222; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      margin-top: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+      font-size: 16px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #4CAF50;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .result {
+      margin-top: 15px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      background: #eee;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .ads {
+      margin-top: 20px;
+      text-align: center;
+      background: #ddd;
+      padding: 10px;
+      border-radius: 8px;
+      color: #444;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>UID Checker (Paste up to 600 UIDs)</h2>
+    <textarea id="uidInput" placeholder="Paste UIDs here, one per line..."></textarea>
+    <button onclick="checkUIDs()">Check Now</button>
+    <div class="result" id="result">Results will appear here...</div>
 
-  <h1>🛠️ 2FA & UID Checker Tools</h1>
-
-  <div class="box">
-    <h2>Generate 2FA Code</h2>
-    <textarea id="secret" placeholder="Enter 2FA Secret (Base32)"></textarea>
-    <button onclick="generateCode()">Generate</button>
-    <p><strong>Code:</strong> <span id="codeResult">---</span></p>
+    <div class="ads">
+      [ Ad Space for Monetization ]
+    </div>
   </div>
 
-  <div class="box">
-    <h2>Check UID Live</h2>
-    <input type="text" id="uid" placeholder="Enter UID">
-    <button onclick="checkUID()">Check</button>
-    <p><strong>Status:</strong> <span id="uidResult">---</span></p>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/otplib@12.0.1/otplib.umd.min.js"></script>
   <script>
-    function generateCode() {
-      const secret = document.getElementById("secret").value.trim();
-      if (!secret) return alert("Enter secret!");
-      try {
-        const code = otplib.authenticator.generate(secret);
-        document.getElementById("codeResult").innerText = code;
-      } catch (e) {
-        alert("Invalid secret");
+    function checkUIDs() {
+      const input = document.getElementById("uidInput").value.trim();
+      const uids = input.split(/\r?\n/).filter(uid => uid.trim() !== "");
+      
+      if (uids.length === 0) {
+        alert("Please paste at least one UID.");
+        return;
       }
-    }
 
-    function checkUID() {
-      const uid = document.getElementById("uid").value.trim();
-      if (!uid) return alert("Enter UID!");
-      // Fake checker simulation
-      setTimeout(() => {
-        document.getElementById("uidResult").innerText = Math.random() > 0.5 ? "Live ✅" : "Dead ❌";
-      }, 500);
+      // Simulated check (you can replace this with real API logic later)
+      let output = `Total UIDs: ${uids.length}\n\n`;
+
+      uids.forEach((uid, index) => {
+        output += `${index + 1}. UID: ${uid} → Status: ✅ Active\n`;
+      });
+
+      document.getElementById("result").innerText = output;
     }
   </script>
-
 </body>
 </html>
