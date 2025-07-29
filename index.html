@@ -1,4 +1,55 @@
+<!DOCTYPE html>
+<html>
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3639226625928225"
-     crossorigin="anonymous"></script>
+  <title>ToolZone - 2FA & UID Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial; background-color: #111; color: #eee; padding: 20px; }
+    input, textarea, button { width: 100%; margin-top: 10px; padding: 10px; border-radius: 5px; border: none; }
+    button { background-color: #0d6efd; color: white; cursor: pointer; }
+    .box { background: #222; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+  </style>
 </head>
+<body>
+
+  <h1>🛠️ 2FA & UID Checker Tools</h1>
+
+  <div class="box">
+    <h2>Generate 2FA Code</h2>
+    <textarea id="secret" placeholder="Enter 2FA Secret (Base32)"></textarea>
+    <button onclick="generateCode()">Generate</button>
+    <p><strong>Code:</strong> <span id="codeResult">---</span></p>
+  </div>
+
+  <div class="box">
+    <h2>Check UID Live</h2>
+    <input type="text" id="uid" placeholder="Enter UID">
+    <button onclick="checkUID()">Check</button>
+    <p><strong>Status:</strong> <span id="uidResult">---</span></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/otplib@12.0.1/otplib.umd.min.js"></script>
+  <script>
+    function generateCode() {
+      const secret = document.getElementById("secret").value.trim();
+      if (!secret) return alert("Enter secret!");
+      try {
+        const code = otplib.authenticator.generate(secret);
+        document.getElementById("codeResult").innerText = code;
+      } catch (e) {
+        alert("Invalid secret");
+      }
+    }
+
+    function checkUID() {
+      const uid = document.getElementById("uid").value.trim();
+      if (!uid) return alert("Enter UID!");
+      // Fake checker simulation
+      setTimeout(() => {
+        document.getElementById("uidResult").innerText = Math.random() > 0.5 ? "Live ✅" : "Dead ❌";
+      }, 500);
+    }
+  </script>
+
+</body>
+</html>
